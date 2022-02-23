@@ -64,9 +64,11 @@ public class SubscriptionService {
                 }
                 long daysBetween = Duration.between(current_subscription.getStartDate().toLocalDateTime(), end_date.toLocalDateTime()).toDays();
                 Double planPrice = plan.getPrice_per_month();
-                if(planPrice!=0 && daysBetween!=0){
+                daysBetween++;
+                long allDays = Duration.between(current_subscription.getStartDate().toLocalDateTime(), current_subscription.getEnd_date().toLocalDateTime()).toDays();
+                if(planPrice>0 && daysBetween>0){
                     sign = true;
-                    Double payValue = planPrice/daysBetween;
+                    Double payValue = planPrice*1.0*(daysBetween*1.0/allDays*1.0);
                     invoice.setAmount(payValue);
                     invoice.setCustomer(current_customer);
                     invoice.setCreated_at(timestamp);
@@ -102,12 +104,14 @@ public class SubscriptionService {
                 end_date = current_subscription.getEnd_date();
             }
             long daysBetween = Duration.between(current_subscription.getStartDate().toLocalDateTime(), end_date.toLocalDateTime()).toDays();
+            long allDays = Duration.between(current_subscription.getStartDate().toLocalDateTime(), current_subscription.getEnd_date().toLocalDateTime()).toDays();
+            daysBetween++;
             Double planPrice = plan.getPrice_per_month();
             boolean sign = false;
-            if(planPrice!=0 && daysBetween!=0){
+            if(planPrice>0 && daysBetween>0){
                 sign = true;
                 Invoice invoice = new Invoice();
-                Double payValue = planPrice/daysBetween;
+                Double payValue = planPrice*1.0*(daysBetween*1.0/allDays*1.0);
                 invoice.setAmount(payValue);
                 invoice.setCustomer(current_customer);
                 invoice.setCreated_at(timestamp);
