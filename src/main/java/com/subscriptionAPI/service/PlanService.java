@@ -24,8 +24,10 @@ public class PlanService {
     @Autowired
     private ProductRepository productRepository;
 
-    public Plan savePlan(Plan plan, String username, Long product_id){
-
+    public Plan savePlan(Plan plan, String username, long product_id){
+        System.out.println("Helooooooooooooooooooooooooooooooooooooooooooooooooooo");
+        System.out.println(product_id);
+        System.out.println("Helooooooooooooooooooooooooooooooooooooooooooooooooooo");
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
         plan.setCustomer(customerRepository.findByUsername(username));
@@ -34,6 +36,9 @@ public class PlanService {
             throw new ResourceNotFoundException("This customer is not authorized to create a plan associated with this product");
         }
         plan.setProduct(product);
+        System.out.println("Helooooooooooooooooooooooooooooooooooooooooooooooooooo");
+        System.out.println(product.getProduct_name());
+        System.out.println("Helooooooooooooooooooooooooooooooooooooooooooooooooooo");
         plan.setCreated_at(timestamp);
         List<Plan> plans = repository.findProductsByProductId(plan.getProduct().getId());
         int n = plans.size();
@@ -50,6 +55,9 @@ public class PlanService {
                 return is_saved_plan;
             }
         }
+        System.out.println("Heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+        System.out.println(plan.getPrice_per_month());
+        System.out.println(plan.getProduct().getProduct_name());
         return repository.saveAndFlush(plan);
     }
 

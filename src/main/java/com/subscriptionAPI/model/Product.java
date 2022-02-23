@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="products")
@@ -23,6 +25,9 @@ public class Product {
     @JoinColumn(name = "customer_id", referencedColumnName="id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Customer customer;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<Plan> plans = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -62,5 +67,13 @@ public class Product {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List<Plan> getPlans() {
+        return plans;
+    }
+
+    public void setPlans(List<Plan> plans) {
+        this.plans = plans;
     }
 }
